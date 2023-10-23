@@ -1,39 +1,45 @@
-import { useEffect } from 'react';
+import { useContext, useEffect } from 'react';
 import './App.css';
 import { useState } from 'react';
 
 function App() {
   const [paises,setPaises] = useState();
-  const [randomPaises,setRandomPaises] = useState();
-  const [elegidos,setElegidos] = useState();
   const [bandera,setBandera] = useState();
+  const [aciertos,setAciertos] = useState(0);
+  const [errores,setErrores] = useState(0);
 
   useEffect(()=>{
     fetch('https://flagcdn.com/es/codes.json')
     .then(response => response.json())
-    .then(data => {console.log({data});setPaises(data)})
-  },[])
+    .then(data => {
+      let paisesSeleccionados = [];
+      for(var i=0;i<3;i++){
+        const randomPais = Object.keys(data)[Math.floor(Math.random()*Object.keys(data).length)];
+        paisesSeleccionados.push({codigo:randomPais,nombre:data[randomPais]})
+      }
+      console.log(paisesSeleccionados)
+      
+      const randomCountry = paisesSeleccionados[Math.floor(Math.random()*paisesSeleccionados.length)].codigo
+      setBandera(randomCountry)
+      setPaises(paisesSeleccionados)
+      })     
+  },[aciertos,errores])
 
-  const handleClick = () => {
-    let paisesSeleccionados = [];
-    for(var i=0;i<3;i++){
-      const randomPais = Object.keys(paises)[Math.floor(Math.random()*Object.keys(paises).length)];
-      paisesSeleccionados.push({codigo:randomPais,nombre:paises[randomPais]})
-    }
-    console.log({paisesSeleccionados})
-    setElegidos(paisesSeleccionados.map((pais,i)=>{
-      return <li key={i}>{pais.nombre}</li>
-    }))
 
-    const randomCountry = paisesSeleccionados[Math.floor(Math.random()*paisesSeleccionados.length)].codigo
-    setBandera(`https://flagcdn.com/256x192/${randomCountry}.png`)
+
+  const handleSelection = ({target}) => {
+    target.value === bandera ? setAciertos(prev => prev+1) : setErrores(prev=>prev+1);
   }
 
 
-  return (<>
-    <button onClick={handleClick}>Comenzar</button>
-    <ul>{elegidos}</ul>
-    <img src={bandera}/>
+  return (
+    <>
+      {paises && paises.map((pais,i)=>{
+        return <button key={i} onClick={handleSelection} value={pais.codigo}>{pais.nombre}</button>
+      })}
+      {bandera && <img src={`https://flagcdn.com/256x192/${bandera}.png`}/>}
+      <p>aciertos: {aciertos}</p>
+      <p>errores: {errores}</p>
     </>
   );
 }
