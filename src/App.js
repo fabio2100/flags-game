@@ -48,8 +48,8 @@ function App() {
       })}
       </div>
       <div class="progress">
-        <div className="progress-bar bg-success" role="progressbar" style={{width: aciertos*100/(errores+aciertos)+'%'}} aria-valuenow="15" aria-valuemin="0" aria-valuemax="100">{aciertos}</div>
-        <div className="progress-bar bg-danger" role="progressbar" style={{width: errores*100/(errores+aciertos)+'%'}} aria-valuenow="30" aria-valuemin="0" aria-valuemax="100">{errores}</div>
+        <div className="progress-bar bg-success" role="progressbar" style={{width: aciertos*100/(errores+aciertos)+'%'}} aria-valuenow="15" aria-valuemin="0" aria-valuemax="100">{aciertos+errores>0 && aciertos}</div>
+        <div className="progress-bar bg-danger" role="progressbar" style={{width: errores*100/(errores+aciertos)+'%'}} aria-valuenow="30" aria-valuemin="0" aria-valuemax="100">{errores+errores>0 && errores}</div>
       </div>
       <div>
       <p>aciertos: {aciertos} errores: {errores}</p>
