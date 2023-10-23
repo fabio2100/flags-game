@@ -7,6 +7,8 @@ function App() {
   const [bandera,setBandera] = useState();
   const [aciertos,setAciertos] = useState(0);
   const [errores,setErrores] = useState(0);
+  const [esAcierto,setIsAcierto] = useState(false);
+  const [esError,setIsError] = useState(false);
 
   useEffect(()=>{
     fetch('https://flagcdn.com/es/codes.json')
@@ -26,18 +28,32 @@ function App() {
 
 
   const handleSelection = ({target}) => {
-    target.value === bandera ? setAciertos(prev => prev+1) : setErrores(prev=>prev+1);
+    if(target.value === bandera) 
+      {setAciertos(prev => prev+1);
+        setIsAcierto(true);
+    }else{
+        setIsAcierto(false)
+      setErrores(prev=>prev+1);}  
   }
 
 
   return (
     <>
+      <div className="row justify-content-center">
+      {bandera && <img className='w-50 p-3' src={`https://flagcdn.com/256x192/${bandera}.png`}/>}
+      </div>
+      <div>
       {paises && paises.map((pais,i)=>{
-        return <button key={i} onClick={handleSelection} value={pais.codigo}>{pais.nombre}</button>
+        return <button className='btn btn-outline-dark col-4' key={i} onClick={handleSelection} value={pais.codigo}>{pais.nombre}</button>
       })}
-      {bandera && <img src={`https://flagcdn.com/256x192/${bandera}.png`}/>}
-      <p>aciertos: {aciertos}</p>
-      <p>errores: {errores}</p>
+      </div>
+      <div class="progress">
+        <div className="progress-bar bg-success" role="progressbar" style={{width: aciertos*100/(errores+aciertos)+'%'}} aria-valuenow="15" aria-valuemin="0" aria-valuemax="100">{aciertos}</div>
+        <div className="progress-bar bg-danger" role="progressbar" style={{width: errores*100/(errores+aciertos)+'%'}} aria-valuenow="30" aria-valuemin="0" aria-valuemax="100">{errores}</div>
+      </div>
+      <div>
+      <p>aciertos: {aciertos} errores: {errores}</p>
+      </div>
     </>
   );
 }
