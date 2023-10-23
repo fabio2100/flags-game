@@ -16,9 +16,7 @@ function App() {
       for(var i=0;i<3;i++){
         const randomPais = Object.keys(data)[Math.floor(Math.random()*Object.keys(data).length)];
         paisesSeleccionados.push({codigo:randomPais,nombre:data[randomPais]})
-      }
-      console.log(paisesSeleccionados)
-      
+      }     
       const randomCountry = paisesSeleccionados[Math.floor(Math.random()*paisesSeleccionados.length)].codigo
       setBandera(randomCountry)
       setPaises(paisesSeleccionados)
