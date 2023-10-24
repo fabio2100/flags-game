@@ -39,6 +39,7 @@ function App() {
 
   return (
     <>
+      <div className='main'>
       <div className="row justify-content-center">
       {bandera && <img className='w-50 p-3' src={`https://flagcdn.com/256x192/${bandera}.png`}/>}
       </div>
@@ -47,12 +48,10 @@ function App() {
         return <button className='btn btn-outline-dark col-4' key={i} onClick={handleSelection} value={pais.codigo}>{pais.nombre}</button>
       })}
       </div>
-      <div class="progress">
+      <div class="progress barra">
         <div className="progress-bar bg-success" role="progressbar" style={{width: aciertos*100/(errores+aciertos)+'%'}} aria-valuenow="15" aria-valuemin="0" aria-valuemax="100">{aciertos+errores>0 && aciertos}</div>
         <div className="progress-bar bg-danger" role="progressbar" style={{width: errores*100/(errores+aciertos)+'%'}} aria-valuenow="30" aria-valuemin="0" aria-valuemax="100">{errores+errores>0 && errores}</div>
       </div>
-      <div>
-      <p>aciertos: {aciertos} errores: {errores}</p>
       </div>
     </>
   );

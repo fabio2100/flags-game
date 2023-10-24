@@ -40,3 +40,15 @@
 body{
   max-width: 512px;
 }
+
+.main{
+  margin: 5px;
+  padding: 2px;
+  border: 2px solid #282c34;
+  border-radius: 12px;
+}
+
+.barra{
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
